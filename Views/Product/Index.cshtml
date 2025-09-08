@@ -1,0 +1,33 @@
+﻿@model IEnumerable<MVCProductCategory.Models.Product>
+<h2>Products</h2>
+<p><a asp-action="Create" class="btn btn-primary">Create New Product</a></p>
+<table class="table table-bordered">
+    <tr><th>ProductId</th><th>ProductName</th><th>CategoryId</th><th>CategoryName</th><th>Actions</th></tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.ProductId</td>
+            <td>@item.ProductName</td>
+            <td>@item.CategoryId</td>
+            <td>@item.Category?.CategoryName</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-warning btn-sm">Edit</a>
+                <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+
+@{
+    int totalPages = (int)Math.Ceiling((double)ViewBag.TotalRecords / ViewBag.PageSize);
+}
+<nav>
+    <ul class="pagination">
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            <li class="@(i == ViewBag.CurrentPage ? "active" : "") page-item">
+                <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+            </li>
+        }
+    </ul>
+</nav>
